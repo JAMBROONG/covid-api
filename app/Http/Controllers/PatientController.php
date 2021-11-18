@@ -262,10 +262,9 @@ class PatientController extends Controller
         $statusId = $this->getStatusId($status);
         $patients = PatientStatuses::where("status_id", "=", $statusId)->get();
         if ($patients->isNotEmpty()) {
-
-            foreach ($patients as $key) {
-                return $this->formatPatient($key);
-            }
+            $patients = $patients->map(function($patient){
+                return $this->formatPatient($patient);
+            });
 
             $response = [
                 "message" => "Get all patients who are $status",
