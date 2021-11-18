@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// route pasien yang dilindungi sanctum
 Route::middleware('auth:sanctum')->group(function(){
     Route::get('/patients', [PatientController::class, 'index']);
     Route::get('/patients/{id}', [PatientController::class, 'show']);
@@ -25,9 +26,11 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::put('/patients/{id}', [PatientController::class, 'update']);
     Route::delete('/patients/{id}', [PatientController::class, 'destroy']);
 
-
     Route::post('/logout', [AuthController::class, 'logout']);
 });
+
+// route untuk login autentikasi sanctum
+// data user login ada di seeder
 Route::post('/login', [AuthController::class, 'login']);
 
 

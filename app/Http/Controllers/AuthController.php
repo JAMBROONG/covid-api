@@ -12,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends Controller
 {
+
+    // fungsi login sanctum
     function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -47,6 +49,8 @@ class AuthController extends Controller
         }
     }
 
+// fungsi logout dan hapus bearer akses token yang sebelumnya login
+// masukkan data token "Bearer (spasi) token yang di dapat saat login" pada header Authorization
     function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

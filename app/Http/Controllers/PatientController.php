@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class PatientController extends Controller
 {
 
-    /**
-     * Function untuk memformat tampilan data pasien.
-     */
+    // Function untuk memformat tampilan data pasien.
     private function formatPatient($patient)
     {
         return [
@@ -33,10 +31,8 @@ class PatientController extends Controller
     }
 
 
-    /**
-     * Function untuk mencari id status.
-     * parameter (id status atau nama status)
-     */
+    // Function untuk mencari id status.
+    // parameter (id status atau nama status).
     private function getStatusId($status)
     {
         
@@ -61,9 +57,7 @@ class PatientController extends Controller
         
     }
 
-    /**
-     * Function untuk menampilkan seluruh data pasien.
-     */
+    //  Function untuk menampilkan seluruh data pasien.
     function index()
     {
         $patients = PatientStatuses::all();
@@ -88,9 +82,8 @@ class PatientController extends Controller
         }
     }
 
-    /**
-     * Function untuk menampilkan data pasien berdasarkan parameter (id pasien).
-     */
+
+    // Function untuk menampilkan data pasien berdasarkan parameter (id pasien).
     function show($id)
     {
         if (is_numeric($id) == TRUE) {
@@ -124,9 +117,7 @@ class PatientController extends Controller
     }
 
 
-    /**
-     * Function untuk membuat data pasien baru.
-     */
+    // Function untuk membuat data pasien baru.
     function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -186,9 +177,7 @@ class PatientController extends Controller
     
     }
 
-    /**
-     * Function untuk mengupdate data pasien berdasarkan parameter (id pasien).
-     */
+    // Function untuk mengupdate data pasien berdasarkan parameter (id pasien).
     function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -237,9 +226,7 @@ class PatientController extends Controller
     }
 
 
-    /**
-     * Function untuk menghapus data pasien berdasarkan parameter (id pasien).
-     */
+    // Function untuk menghapus data pasien berdasarkan parameter (id pasien).
     function destroy($id)
     {
         $index = $id - 1;
@@ -271,9 +258,7 @@ class PatientController extends Controller
     }
 
 
-    /**
-     * Function untuk menampilkan data pasien berdasarkan parameter (status pasien).
-     */
+    // Function untuk menampilkan data pasien berdasarkan parameter (status pasien).
     function status($status)
     {
         $statusId = $this->getStatusId($status);
@@ -299,9 +284,7 @@ class PatientController extends Controller
     }
 
 
-    /**
-     * Function untuk mencari data pasien berdasarkan parameter (nama pasien).
-     */
+    // Function untuk mencari data pasien berdasarkan parameter (nama pasien).
     function search($name)
     {
         $patients = Patient::where("name", "like", "%" . $name . "%")->get();
