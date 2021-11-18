@@ -142,7 +142,6 @@ class PatientController extends Controller
                 $response = [
                     "message" => "Status id or status name not found!",
                 ];
-                
     
                 return response()->json($response, Response::HTTP_NOT_FOUND);
             }else {
@@ -160,7 +159,6 @@ class PatientController extends Controller
                     "status_id" => $status,
                     "date_in" => $date_in,
                     "date_out" => $date_out
-    
                 ]);
     
                 $patientStatus = $this->formatPatient($patientStatus);
@@ -169,7 +167,6 @@ class PatientController extends Controller
                     "message" => "New patient created successfully!",
                     "data" => $patientStatus
                 ];
-                
     
                 return response()->json($response, Response::HTTP_CREATED);
             }
@@ -193,12 +190,20 @@ class PatientController extends Controller
             $status = $this->getStatusId($request->status);
             $date_in = $request->date_in;
             $date_out = $request->date_out;
-            $index = $id - 1;
 
             $patient = Patient::find($id);
             $getPatientStatus = PatientStatuses::all()->where("patient_id", "=", $id);
-            $patientStatus = PatientStatuses::find($getPatientStatus[$index]->id);
 
+            foreach ($getPatientStatus as $key) {
+                $patientStatus = PatientStatuses::find($key->id);
+                if ($getPatientStatus) {
+                    $patientStatus->update([
+                        "status_id" => ($status != NULL) ? $status : $key->status_id,
+                        "date_in" => ($date_in != NULL) ? $date_in : $key->date_in,
+                        "date_out" => ($date_out != NULL) ? $date_out : $key->date_out
+                    ]);
+                }
+            }
             
             if ($patient) {
                 $patient->update([
@@ -207,14 +212,7 @@ class PatientController extends Controller
                     "address" => ($address != NULL) ? $address : $patient->address
                 ]);
             }
-
-            if ($getPatientStatus) {
-                $patientStatus->update([
-                    "status_id" => ($status != NULL) ? $status : $getPatientStatus[$index]->status_id,
-                    "date_in" => ($date_in != NULL) ? $date_in : $getPatientStatus[$index]->date_in,
-                    "date_out" => ($date_out != NULL) ? $date_out : $getPatientStatus[$index]->date_out
-                ]);
-            }
+            
             $patientStatus = $this->formatPatient($patientStatus);
             $response = [
                 "message" => "Patient's id $id updated successfully",
