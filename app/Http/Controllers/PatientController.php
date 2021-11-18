@@ -233,12 +233,15 @@ class PatientController extends Controller
             $patient->delete();
 
             $getPatientStatus = PatientStatuses::all()->where("patient_id", "=", $id);
-            $patientStatus = PatientStatuses::find($getPatientStatus[$index]->id);
-            
 
-            if ($getPatientStatus) {
-                $patientStatus->delete();
-            }
+							foreach ($getPatientStatus as $key) {
+								$patientStatus = PatientStatuses::find($key->id);
+
+							if ($getPatientStatus) {
+									$patientStatus->delete();
+							}
+						}
+            
 
         $response = [
             "message" => "Patient's id $id deleted successfully!"
