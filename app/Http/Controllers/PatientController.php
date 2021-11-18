@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PatientController extends Controller
 {
-
     // Function untuk memformat tampilan data pasien.
     private function formatPatient($patient)
     {
